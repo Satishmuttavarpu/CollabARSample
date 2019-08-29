@@ -12,7 +12,7 @@ import ARKit
 
 class ViewController: UIViewController {
     
-    let viewModel : ViewControllerVM = ViewControllerVM()
+    fileprivate let viewModel : ViewControllerVM = ViewControllerVM()
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!

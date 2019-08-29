@@ -9,10 +9,10 @@
 import UIKit
 
 protocol CellImageTapDelegate {
-    func tableCell(didClickedImageOf tableCell: UITableViewCell)
+    func tableCell(didClickedImageOf tableCell: UITableViewCell, wallType:WallType)
 }
 
-class CollabTopBottomWallCell: UITableViewCell {
+class CollabTopBottomWallCell: UITableViewCell, UITextFieldDelegate  {
 
     @IBOutlet weak var wallImg:UIImageView!
     @IBOutlet weak var wallWidthLine:UILabel!
@@ -21,21 +21,18 @@ class CollabTopBottomWallCell: UITableViewCell {
     @IBOutlet weak var wallHeightTextFeild:UITextField!
 
     var delegate : CellImageTapDelegate?
-
-    
     var tapGestureRecognizer = UITapGestureRecognizer()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        wallWidthTextFeild.delegate = self
+        wallHeightTextFeild.delegate = self
         initialize()
-
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     private func initialize() {
@@ -43,9 +40,23 @@ class CollabTopBottomWallCell: UITableViewCell {
         wallImg.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func imageTapped(gestureRecgonizer: UITapGestureRecognizer) {
-        delegate?.tableCell(didClickedImageOf: self)
-
+    func configureWall(wallViewModel wall:CollabWallModel) {
+        self.wallImg.image = wall.wallImage
+        self.wallWidthTextFeild.text = wall.wallWidth
+        self.wallHeightTextFeild.text = wall.wallHeight
     }
-
+    
+    @objc func imageTapped(gestureRecgonizer: UITapGestureRecognizer) {
+        if self.reuseIdentifier == "TopWallCell"{
+            delegate?.tableCell(didClickedImageOf: self, wallType: WallType.top)
+        }else{
+            delegate?.tableCell(didClickedImageOf: self, wallType: WallType.bottom)
+        }
+    }
+    
+      // MARK: - UITextFieldDelegate
+    func textFieldShouldReturn(_ textFeild: UITextField) -> Bool {
+        textFeild.resignFirstResponder()
+        return true
+    }
 }

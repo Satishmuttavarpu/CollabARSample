@@ -53,7 +53,9 @@ class CollabMapViewController: UIViewController{
     private func presentViewController(){
        
         if let arVC = self.storyboard?.instantiateViewController(withIdentifier: "CollabRoomViewController") as? CollabRoomViewController {
-            self.present(arVC, animated: true, completion: nil)
+            let navController = UINavigationController(rootViewController: arVC)
+            self.present(navController, animated:true, completion: nil)
+           // self.present(arVC, animated: true, completion: nil)
         }
    /*
         if let arVC = self.storyboard?.instantiateViewController(withIdentifier: "ARViewController") as? ViewController {
